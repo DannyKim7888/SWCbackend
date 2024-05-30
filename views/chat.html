@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chat Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #f5f5f5;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        .sidebar-left, .sidebar-right {
+            width: 200px;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+            z-index: 1000; /* Ensure the sidebar stays on top */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .sidebar-left {
+            background-color: #DDEEC0;
+            left: 0;
+            top: 0;
+            transform: translateX(-150px); /* Start hidden to the left */
+            transition: transform 0.3s ease; /* Smooth transition for sidebar */
+        }
+        .sidebar-left:hover {
+            transform: translateX(0); /* Show left sidebar on hover */
+        }
+        .sidebar-right {
+            background-color: #DDEEC0;
+            right: 0;
+            top: 0;
+            transform: translateX(100%); /* Start hidden to the right */
+            transition: transform 0.3s ease; /* Smooth transition for sidebar */
+        }
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            margin-left: 50px; /* Adjusted to not be under the left sidebar when it is hidden */
+        }
+        .chat-box {
+            width: 90%;
+            height: 80%;
+            background: #fff;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+        .input-box {
+            display: flex;
+            width: 95%;
+            margin-top: 10px;
+        }
+        .input-box textarea {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            height: 50px;
+            resize: none;
+            overflow-y: auto;
+            border-radius: 8px 0 0 8px;
+        }
+        .input-box button {
+            width: 60px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border-radius: 0 8px 8px 0;
+        }
+        .message {
+            margin: 10px 0;
+        }
+        .user-message {
+            text-align: right;
+        }
+        .user-message p {
+            background-color: #DCF8C6;
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        .bot-message p {
+            background-color: #F1F1F1;
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        .menu-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            z-index: 2000; /* Ensure the menu toggle is clickable */
+        }
+        .exit-button {
+            display: block;
+            text-align: left;
+            width: 60px;
+            padding: 10px;
+            background-color: #ff4d4d;
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-left">
+        <button class="exit-button" onclick="window.close()">나가기</button>
+        <!-- Left Sidebar Content -->
+    </div>
+    <div class="main-content">
+        <span class="menu-toggle" onclick="toggleSidebar()">☰</span>
+        <div class="chat-box" id="chat-box">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="input-box">
+            <textarea id="user-input" placeholder="질문을 입력하세요..."></textarea>
+            <button onclick="sendMessage()">↑</button>
+        </div>
+    </div>
+    <div class="sidebar-right" id="sidebar-right">
+        <button class="exit-button" onclick="window.close()">나가기</button>
+        <!-- Right Sidebar Content -->
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebarRight = document.getElementById('sidebar-right');
+            sidebarRight.style.transform = sidebarRight.style.transform === 'translateX(0%)' ? 'translateX(100%)' : 'translateX(0%)';
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            if (userInput.trim() === "") return;
+    
+            const chatBox = document.getElementById('chat-box');
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user-message');
+            userMessage.innerHTML = `<p>${userInput}</p>`;
+            chatBox.appendChild(userMessage);
+    
+            const botMessage = document.createElement('div');
+            botMessage.classList.add('message', 'bot-message');
+            botMessage.innerHTML = `<p>여기가 대답하는 곳 "${userInput}"</p>`;
+            chatBox.appendChild(botMessage);
+    
+            document.getElementById('user-input').value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    
+        document.getElementById('user-input').addEventListener('keydown', function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent the default action on enter press
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

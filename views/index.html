@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meedo: index</title>
+    <link rel="stylesheet" href=/stylesheets/index.css>
+    <script>
+        function changeLanguage() {
+            var language = document.getElementById('language').value;
+            var explanation = document.getElementById('explanation');
+            var question = document.getElementById('question');
+            
+            if (language === 'english') {
+                explanation.innerText = 'Explanation';
+                question.innerText = 'Question';
+            } else if (language === 'korean') {
+                explanation.innerText = '설명';
+                question.innerText = '질문';
+            } else if (language === 'Chinese') {
+                explanation.innerText = '解释';
+                question.innerText = '问题';
+            } else if (language === 'Japanese') {
+                explanation.innerText = '説明';
+                question.innerText = '質問';
+            }
+        }
+
+        function changeFontSize() {
+            var fontSize = document.getElementById('word_size').value;
+            var explanation = document.getElementById('explanation');
+            var question = document.getElementById('question');
+
+            explanation.style.fontSize = fontSize + 'px';
+            question.style.fontSize = fontSize + 'px';
+        }
+    </script>
+</head>
+<body>
+    <div id="header">
+            <img src="/images/index/meedo.png" alt="미도 로고">
+    </div>
+    <div id="container">
+        <div class="icon-container">
+            <div class="icon">
+                <a href="/select_explanation">
+                    <img src="/images/index/pic.png" alt=" ">
+                    <h2 id="explanation">설명</h2>
+                </a>
+            </div>
+            <div class="icon">
+                <a href="/select_question">
+                    <img src="/images/index/question.png" alt=" ">
+                    <h2 id="question">질문</h2>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <img src="/images/index/copyright.png" alt=" ">
+
+    </div>
+    <div class="side-bar">
+        <div class="menu-item">
+            <label for='language'>언어 </label>
+            <select id='language' onchange="changeLanguage()">
+                <option value="korean" selected>한국어</option>
+                <option value="english">English</option>
+                <option value="Chinese">汉文</option>
+                <option value="Japanese">日语</option>
+            </select>
+        </div>
+        <div class="menu-item">
+            <label for='word_size'>글자크기 </label>
+            <select id='word_size' onchange="changeFontSize()">
+                <option value="25">30px</option>
+                <option value="50">70px</option>
+            </select>
+        </div>
+    </div>
+</body>
+</html>
